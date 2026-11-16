@@ -995,13 +995,13 @@
                         "$ref": "#/$defs/types/variable"
                     },
                     "property_access": {
-                        "$ref": "#/$defs/types/variable"
+                        "$ref": "#/$defs/nodes/property_access"
                     },
                     "type_info": {
-                        "$ref": "#/$defs/types/variable"
+                        "$ref": "#/$defs/nodes/type_info"
                     },
                     "property_info": {
-                        "$ref": "#/$defs/types/variable"
+                        "$ref": "#/$defs/nodes/property_info"
                     },
                     "cache": {
                         "$ref": "#/$defs/nodes/cache"
@@ -1365,6 +1365,89 @@
                 },
                 "additionalProperties": false
             },
+            "property_access": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "magic_call": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false
+                            },
+                            "magic_get": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "magic_set": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "throw_exception_on_invalid_index": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false
+                            },
+                            "throw_exception_on_invalid_property_path": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "wildcard_reads": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false,
+                                "description": "Enables reading every element of a collection through a \"[*]\" wildcard."
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                ],
+                "default": {
+                    "enabled": true,
+                    "magic_call": false,
+                    "magic_get": true,
+                    "magic_set": true,
+                    "throw_exception_on_invalid_index": false,
+                    "throw_exception_on_invalid_property_path": true,
+                    "wildcard_reads": false
+                },
+                "description": "Property access configuration"
+            },
+            "property_info": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "with_constructor_extractor": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true,
+                                "description": "Registers the constructor extractor."
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                ],
+                "default": {
+                    "enabled": true,
+                    "with_constructor_extractor": true
+                },
+                "description": "Property info configuration"
+            },
             "router": {
                 "anyOf": [
                     {
@@ -1419,6 +1502,337 @@
                     "https_port": 443,
                     "utf8": true
                 }
+            },
+            "type_info": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "aliases": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "$ref": "#/$defs/types/scalar"
+                                },
+                                "description": "Additional type aliases to be used during type context creation."
+                            }
+                        },
+                        "patternProperties": {
+                            "^alias$": {
+                                "$ref": "#/$defs/types/variable"
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                ],
+                "default": {
+                    "enabled": true,
+                    "aliases": []
+                }
+            },
+            "zenstruck_foundry": {
+                "$ref": "#/$defs/types/object_null",
+                "properties": {
+                    "auto_refresh_proxies": {
+                        "$ref": "#/$defs/types/boolean_null",
+                        "default": null,
+                        "description": "Deprecated since zenstruck/foundry 2.0: Since 2.0 auto_refresh_proxies defaults to true and this configuration has no effect.\n\nWhether to auto-refresh proxies by default (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#auto-refresh)",
+                        "deprecated": true
+                    },
+                    "enable_auto_refresh_with_lazy_objects": {
+                        "$ref": "#/$defs/types/boolean_null",
+                        "default": null,
+                        "description": "Enable auto-refresh using PHP 8.4 lazy objects (cannot be enabled if PHP < 8.4)."
+                    },
+                    "faker": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "locale": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The default locale to use for faker.",
+                                "examples": [
+                                    "fr_FR"
+                                ]
+                            },
+                            "seed": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "Deprecated since zenstruck/foundry 2.4: The \"faker.seed\" configuration is deprecated and will be removed in 3.0. Use environment variable \"FOUNDRY_FAKER_SEED\" instead.\n\nRandom number generator seed to produce the same fake values every run.",
+                                "examples": [
+                                    "1234"
+                                ],
+                                "deprecated": true
+                            },
+                            "manage_seed": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true,
+                                "description": "Automatically manage faker seed to ensure consistent data between test runs."
+                            },
+                            "service": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "Service id for custom faker instance.",
+                                "examples": [
+                                    "my_faker"
+                                ]
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "locale": null,
+                            "seed": null,
+                            "manage_seed": true,
+                            "service": null
+                        },
+                        "description": "Configure the faker used by your factories."
+                    },
+                    "instantiator": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "use_constructor": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true,
+                                "description": "Use the constructor to instantiate objects."
+                            },
+                            "allow_extra_attributes": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false,
+                                "description": "Whether or not to skip attributes that do not correspond to properties."
+                            },
+                            "always_force_properties": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false,
+                                "description": "Whether or not to skip setters and force set object properties (public/private/protected) directly."
+                            },
+                            "service": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "Service id of your custom instantiator.",
+                                "examples": [
+                                    "my_instantiator"
+                                ]
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "use_constructor": true,
+                            "allow_extra_attributes": false,
+                            "always_force_properties": false,
+                            "service": null
+                        },
+                        "description": "Configure the default instantiator used by your object factories."
+                    },
+                    "global_state": {
+                        "$ref": "#/$defs/types/array_null",
+                        "items": {
+                            "$ref": "#/$defs/types/scalar"
+                        },
+                        "description": "Stories or invokable services to be loaded before each test."
+                    },
+                    "persistence": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "flush_once": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false,
+                                "description": "Flush only once per call of `PersistentObjectFactory::create()` in userland."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "flush_once": false
+                        }
+                    },
+                    "orm": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "auto_persist": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true,
+                                "description": "Deprecated since zenstruck/foundry 2.4: Since 2.4 auto_persist defaults to true and this configuration has no effect.\n\nAutomatically persist entities when created.",
+                                "deprecated": true
+                            },
+                            "reset": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "connections": {
+                                        "$ref": "#/$defs/types/array_null",
+                                        "items": {
+                                            "$ref": "#/$defs/types/scalar"
+                                        },
+                                        "default": [
+                                            "default"
+                                        ],
+                                        "description": "DBAL connections to reset with ResetDatabase trait"
+                                    },
+                                    "entity_managers": {
+                                        "$ref": "#/$defs/types/array_null",
+                                        "items": {
+                                            "$ref": "#/$defs/types/scalar"
+                                        },
+                                        "default": [
+                                            "default"
+                                        ],
+                                        "description": "Entity Managers to reset with ResetDatabase trait"
+                                    },
+                                    "mode": {
+                                        "anyOf": [
+                                            {
+                                                "enum": [
+                                                    null,
+                                                    "!php/enum Zenstruck\\Foundry\\ORM\\ResetDatabase\\ResetDatabaseMode::SCHEMA",
+                                                    "schema",
+                                                    "!php/enum Zenstruck\\Foundry\\ORM\\ResetDatabase\\ResetDatabaseMode::MIGRATE",
+                                                    "migrate",
+                                                    "!php/enum Zenstruck\\Foundry\\ORM\\ResetDatabase\\ResetDatabaseMode::AUTO",
+                                                    "auto",
+                                                    "schema",
+                                                    "migrate",
+                                                    "auto"
+                                                ]
+                                            },
+                                            {
+                                                "$ref": "#/$defs/types/param"
+                                            }
+                                        ],
+                                        "default": null,
+                                        "description": "Reset mode to use with ResetDatabase trait (\"auto\" migrates if the app has migrations, otherwise resets the schema)"
+                                    },
+                                    "migrations": {
+                                        "$ref": "#/$defs/types/object_null",
+                                        "properties": {
+                                            "configurations": {
+                                                "$ref": "#/$defs/types/array_null",
+                                                "items": {
+                                                    "$ref": "#/$defs/types/scalar"
+                                                },
+                                                "description": "Migration configurations"
+                                            }
+                                        },
+                                        "additionalProperties": false,
+                                        "default": {
+                                            "configurations": []
+                                        }
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "connections": [
+                                        "default"
+                                    ],
+                                    "entity_managers": [
+                                        "default"
+                                    ],
+                                    "mode": null,
+                                    "migrations": {
+                                        "configurations": []
+                                    }
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "auto_persist": true,
+                            "reset": {
+                                "connections": [
+                                    "default"
+                                ],
+                                "entity_managers": [
+                                    "default"
+                                ],
+                                "mode": null,
+                                "migrations": {
+                                    "configurations": []
+                                }
+                            }
+                        }
+                    },
+                    "mongo": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "auto_persist": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true,
+                                "description": "Deprecated since zenstruck/foundry 2.4: Since 2.4 auto_persist defaults to true and this configuration has no effect.\n\nAutomatically persist documents when created.",
+                                "deprecated": true
+                            },
+                            "reset": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "document_managers": {
+                                        "$ref": "#/$defs/types/array_null",
+                                        "items": {
+                                            "$ref": "#/$defs/types/scalar"
+                                        },
+                                        "default": [
+                                            "default"
+                                        ],
+                                        "description": "Document Managers to reset with ResetDatabase trait"
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "document_managers": [
+                                        "default"
+                                    ]
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "auto_persist": true,
+                            "reset": {
+                                "document_managers": [
+                                    "default"
+                                ]
+                            }
+                        }
+                    },
+                    "make_factory": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "default_namespace": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": "Factory",
+                                "description": "Default namespace where factories will be created by maker."
+                            },
+                            "add_hints": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true,
+                                "description": "Add \"beginner\" hints in the created factory."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "default_namespace": "Factory",
+                            "add_hints": true
+                        }
+                    },
+                    "make_story": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "default_namespace": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": "Story",
+                                "description": "Default namespace where stories will be created by maker."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "default_namespace": "Story"
+                        }
+                    }
+                },
+                "additionalProperties": false
             }
         }
     },
@@ -1430,8 +1844,77 @@
         "framework": {
             "$ref": "#/$defs/nodes/framework"
         },
+        "property_access": {
+            "$ref": "#/$defs/nodes/property_access"
+        },
+        "property_info": {
+            "$ref": "#/$defs/nodes/property_info"
+        },
         "router": {
             "$ref": "#/$defs/nodes/router"
+        },
+        "type_info": {
+            "$ref": "#/$defs/nodes/type_info"
+        },
+        "when@dev": {
+            "$ref": "#/$defs/types/object_null",
+            "properties": {
+                "cache": {
+                    "$ref": "#/$defs/nodes/cache"
+                },
+                "framework": {
+                    "$ref": "#/$defs/nodes/framework"
+                },
+                "imports": true,
+                "parameters": true,
+                "property_access": {
+                    "$ref": "#/$defs/nodes/property_access"
+                },
+                "property_info": {
+                    "$ref": "#/$defs/nodes/property_info"
+                },
+                "router": {
+                    "$ref": "#/$defs/nodes/router"
+                },
+                "services": true,
+                "type_info": {
+                    "$ref": "#/$defs/nodes/type_info"
+                },
+                "zenstruck_foundry": {
+                    "$ref": "#/$defs/nodes/zenstruck_foundry"
+                }
+            },
+            "additionalProperties": false
+        },
+        "when@test": {
+            "$ref": "#/$defs/types/object_null",
+            "properties": {
+                "cache": {
+                    "$ref": "#/$defs/nodes/cache"
+                },
+                "framework": {
+                    "$ref": "#/$defs/nodes/framework"
+                },
+                "imports": true,
+                "parameters": true,
+                "property_access": {
+                    "$ref": "#/$defs/nodes/property_access"
+                },
+                "property_info": {
+                    "$ref": "#/$defs/nodes/property_info"
+                },
+                "router": {
+                    "$ref": "#/$defs/nodes/router"
+                },
+                "services": true,
+                "type_info": {
+                    "$ref": "#/$defs/nodes/type_info"
+                },
+                "zenstruck_foundry": {
+                    "$ref": "#/$defs/nodes/zenstruck_foundry"
+                }
+            },
+            "additionalProperties": false
         }
     },
     "patternProperties": {
@@ -1444,8 +1927,17 @@
                 "framework": {
                     "$ref": "#/$defs/nodes/framework"
                 },
+                "property_access": {
+                    "$ref": "#/$defs/nodes/property_access"
+                },
+                "property_info": {
+                    "$ref": "#/$defs/nodes/property_info"
+                },
                 "router": {
                     "$ref": "#/$defs/nodes/router"
+                },
+                "type_info": {
+                    "$ref": "#/$defs/nodes/type_info"
                 }
             }
         }
